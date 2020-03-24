@@ -28,3 +28,16 @@ npm test
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+# TO DO
+reproduce todomvc in component format:
+[] CRUD actions
+[] a couple tests 
+[] save state in browser
+[] component format
+[] set up remote github repo
+[] commented where needed
+[] figure out how to get scss in there? or how to use post css better
+[] readme
+[] clear through linter
+[] heroku hosting
