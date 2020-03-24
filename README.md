@@ -1,27 +1,22 @@
 # vue-todo-app
 
-> A Vue.js project
+> This is a TO-DO app built in Vue.js, I broke it out in to many components and used state management via Vuex and localStorage.
+
+Includes the following features:
+* Add new todo
+* Delete todo
+* Update todo
+* Edit todo
+* Enabled double click to edit
+* Press escape to cancel
+* Clear all completed todos
+* Filter todos based on whether they are active or completed
+* Count number of active todos remaining
+* Implemented Vuex for state handling
+* Added Vuex-persist to hold state in the browser
 
 ## Build Setup
 
-``` bash
-# install dependencies
-npm install
+To run the program please clone the repo, `npm install`, `npm run dev`, and then navigate to localhost:8080.
 
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run all tests
-npm test
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+run the test unit with `npm run unit`
