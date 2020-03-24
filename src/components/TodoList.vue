@@ -8,16 +8,8 @@
         @keyup.enter="addTodo"
       >
       <transition-group name="fade" enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
-      <div v-for="(todo, index) in todosFiltered" :key="todo.id" class="list-item">
-          <div class="list-item-first">
-            <input type="checkbox" v-model="todo.completed">
-            <div v-if="!todo.editing" @dblclick="startEditTodo(todo)" class="list-item-inactive" :class="{completed: todo.completed}">{{ todo.text }}</div>
-            <input v-else class="list-item-active" type="text" v-model="todo.text" @blur="finishEditTodo(todo)" @keyup.enter="finishEditTodo(todo)" @keyup.escape="undoEditTodo(todo)" v-focus>
-          </div>
-          <div class="remove-item" @click="deleteTodo(index)">
-            &times;
-          </div>
-      </div>
+      <todo-task v-for="(todo, index) in todosFiltered" :key="todo.id" :todo="todo" :index="index" @deletedTodo="deleteTodo" @finishedEditTodo="updateEditedTodo">
+      </todo-task>
       </transition-group>
       <div class="bottom-container">
         <div>{{ remaining }} items left</div>
@@ -36,8 +28,13 @@
 </template>
 
 <script>
+import TodoTask from './TodoTask'
+
 export default {
-  name: 'TodoList',
+  name: 'todo-list',
+  components: {
+    TodoTask,
+  },
   data() {
     return {
       newTodo: '',
@@ -78,13 +75,6 @@ export default {
       return this.todos.filter(todo => todo.completed).length > 0
     },
   },
-  directives: {
-    focus: {
-      inserted: function(el) {
-        el.focus()
-      }
-    }
-  },
   methods: {
     addTodo() {
         if(this.newTodo.trim() == ''){
@@ -97,28 +87,17 @@ export default {
             editing: false,
         })
 
-        this.newTodo = ''
-        this.todoId++
+        this.newTodo = '' // remove this?
+        this.todoId++ // remove this?
     },
     deleteTodo(index) {
         this.todos.splice(index, 1)
     },
-    startEditTodo(todo) {
-      this.tempEditedText = todo.text
-      todo.editing = true
-    },
-    finishEditTodo(todo) {
-      if(todo.text.trim() == ''){
-        todo.text = this.tempEditedText
-      }
-      todo.editing = false
-    },
-    undoEditTodo(todo) {
-      todo.text = this.tempEditedText
-      todo.editing = false
-    },
     clearCompletedTodos() {
       this.todos = this.todos.filter(todo => !todo.completed)
+    },
+    updateEditedTodo(todoData) {
+      this.todos.splice(todoData.index, 1, todoData.todo)
     },
   }
 }
