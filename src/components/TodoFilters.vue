@@ -1,9 +1,9 @@
 <template>
     <div>
-        <button :class="{active: filter === 'all'}" @click="updateFilter('all')">All</button>
-        <button :class="{active: filter === 'active'}" @click="updateFilter('active')">Active</button>
-        <button :class="{active: filter === 'completed'}" @click="updateFilter('completed')">Completed</button>
-    </div>    
+        <button class="box" :class="{active: filter === 'all'}" @click="updateFilter('all')">All</button>
+        <button class="box" :class="{active: filter === 'active'}" @click="updateFilter('active')">Active</button>
+        <button class="box" :class="{active: filter === 'completed'}" @click="updateFilter('completed')">Completed</button>
+    </div>
 </template>
 
 <script>
@@ -21,3 +21,19 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+button {
+  font-size: 14px;
+  background-color: white;
+  appearance: none;
+  font-weight: bold;
+  color: #48C0FB;
+  border: 1px solid #48C0FB;
+}
+
+button.active {
+  background: #48C0FB;
+  color: white;
+}
+</style>

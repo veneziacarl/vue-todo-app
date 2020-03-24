@@ -32,4 +32,13 @@ export default {
 .fade-enter, .fade-leave-to {
   opacity: 0;
 }
+
+button {
+  font-size: 14px;
+  background-color: white;
+  appearance: none;
+  background: #48C0FB;
+  color: white;
+  font-weight: bold;
+}
 </style>

@@ -13,7 +13,8 @@ export const store = new Vuex.Store({
     plugins: [vuexPersist.plugin],
     state: {
         filter: "all",
-        todos: [],      
+        todos: [],
+        todoIdCount: 0,
     },
     getters: {
         remaining (state) {
@@ -32,6 +33,9 @@ export const store = new Vuex.Store({
         todosAreCompleted (state) {
             return state.todos.filter(todo => todo.completed).length > 0
         },
+        nextTodoId (state) {
+            return state.todoIdCount + 1
+        }
     },
     mutations: {
         addTodo(state, todo) {
@@ -60,6 +64,9 @@ export const store = new Vuex.Store({
                 'completed': todo.completed,
                 'editing:': todo.editing,
             })
+        },
+        incrementTodoID(state) {
+            state.todoIdCount++
         }
     },
 })

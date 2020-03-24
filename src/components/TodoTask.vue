@@ -2,11 +2,24 @@
     <div class="todo-task list-item">
         <div class="list-item-first">
             <input type="checkbox" v-model="completed" @change="editTodo">
-            <div v-if="!editing" @dblclick="editingMode" class="list-item-inactive" :class="{completed: completed}">{{ text }}</div>
-            <input v-else class="list-item-active" type="text" v-model="text" @blur="editTodo" @keyup.enter="editTodo" @keyup.escape="undoEditTodo" v-focus>
+            
+            <div 
+            v-if="!editing" 
+            @dblclick="editingMode" 
+            class="list-item-inactive" 
+            :class="{completed: completed}">{{ text }}</div>
+            
+            <input 
+            v-else class="list-item-active" 
+            type="text" 
+            v-model="text" 
+            @blur="editTodo" 
+            @keyup.enter="editTodo" 
+            @keyup.escape="undoEditTodo" 
+            v-focus>
         </div>
         <div class="remove-item" @click="deleteTodo">
-            &times;
+            x
         </div>
     </div>
 </template>
@@ -65,6 +78,12 @@ export default {
 </script>
 
 <style scoped>
+.remove-item {
+    cursor: pointer;
+    margin-left: 14px;
+    color: #48C0FB;
+    font-size: 25px;
+}
 .list-item {
     margin-bottom: 12px;
     display: flex;
@@ -72,4 +91,26 @@ export default {
     justify-content: space-between;
     animation-duration: 0.3s;
 }
+.list-item-first {
+  display: flex;
+  align-items: center;
+}
+.list-item-inactive {
+  padding: 10px;
+  border: 1px solid white;
+  margin-left: 12px;
+}
+.list-item-active {
+  font-size: 24px;
+  color: #2c3e50;
+  margin-left: 12px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+.completed {
+  text-decoration: line-through;
+  color: gray;
+}
+
 </style>
