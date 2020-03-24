@@ -40,4 +40,6 @@ reproduce todomvc in component format:
 [] figure out how to get scss in there? or how to use post css better
 [] readme
 [] clear through linter
+[] remove dummy data
+[] maybe break out the input bar as a separate component as well
 [] heroku hosting

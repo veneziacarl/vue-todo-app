@@ -7,35 +7,30 @@
         v-model="newTodo"
         @keyup.enter="addTodo"
       >
-      <transition-group name="fade" enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
-      <todo-task v-for="(todo, index) in todosFiltered" :key="todo.id" :todo="todo" :index="index" @deletedTodo="deleteTodo" @finishedEditTodo="updateEditedTodo">
-      </todo-task>
-      </transition-group>
+      <todo-task v-for="(todo, index) in todosFiltered" :key="todo.id" :todo="todo" :index="index" @deletedTodo="deleteTodo" @finishedEditTodo="updateEditedTodo"></todo-task>
       <div class="bottom-container">
-        <div>{{ remaining }} items left</div>
-        <div>
-          <button :class="{active: filter == 'all'}" @click="filter = 'all'">All</button>
-          <button :class="{active: filter == 'active'}" @click="filter = 'active'">Active</button>
-          <button :class="{active: filter == 'completed'}" @click="filter = 'completed'">Completed</button>
-        </div>
-        <div>
-          <transition name="fade">
-          <button v-if="todosAreCompleted" @click="clearCompletedTodos">Clear Completed</button>
-          </transition>
-        </div>
+        <todo-tasks-remaining :remaining="remaining"></todo-tasks-remaining>
+        <todo-filters @updatedFilter="updatedFilter"></todo-filters>
+        <todo-clear-completed :todosAreCompleted="todosAreCompleted" @clearedCompletedTodos="clearCompletedTodos"></todo-clear-completed>
       </div>
   </div>
 </template>
 
 <script>
 import TodoTask from './TodoTask'
+import TodoTasksRemaining from './TodoTasksRemaining'
+import TodoFilters from './TodoFilters'
+import TodoClearCompleted from './TodoClearCompleted'
 
 export default {
   name: 'todo-list',
   components: {
     TodoTask,
+    TodoTasksRemaining,
+    TodoFilters,
+    TodoClearCompleted,
   },
-  data() {
+  data () {
     return {
       newTodo: '',
       todoId: 3,
@@ -58,10 +53,10 @@ export default {
     }
   },
   computed: {
-    remaining() {
+    remaining () {
       return this.todos.filter(todo => !todo.completed).length
     },
-    todosFiltered() {
+    todosFiltered () {
       if(this.filter == "all") {
         return this.todos
       } else if(this.filter == "active"){
@@ -71,12 +66,12 @@ export default {
       }
       return this.todos
     },
-    todosAreCompleted() {
+    todosAreCompleted () {
       return this.todos.filter(todo => todo.completed).length > 0
     },
   },
   methods: {
-    addTodo() {
+    addTodo () {
         if(this.newTodo.trim() == ''){
             return
         }
@@ -90,25 +85,24 @@ export default {
         this.newTodo = '' // remove this?
         this.todoId++ // remove this?
     },
-    deleteTodo(index) {
+    deleteTodo (index) {
         this.todos.splice(index, 1)
     },
-    clearCompletedTodos() {
+    clearCompletedTodos () {
       this.todos = this.todos.filter(todo => !todo.completed)
     },
-    updateEditedTodo(todoData) {
+    updateEditedTodo (todoData) {
       this.todos.splice(todoData.index, 1, todoData.todo)
     },
+    updatedFilter (filter) {
+      this.filter = filter
+    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-
-@import url(
-  "https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"
-);
 
 h1, h2 {
   font-weight: normal;
@@ -133,13 +127,6 @@ a {
   &:focus {
       outline: 0;
   }
-}
-.list-item {
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    animation-duration: 0.3s;
 }
 .remove-item {
     cursor: pointer;
@@ -202,13 +189,5 @@ button {
 button.active {
   background: green;
   color: white;
-}
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .2s;
-}
-
-.fade-enter, .fade-leave-to {
-  opacity: 0;
 }
 </style>

@@ -72,6 +72,11 @@ export default {
 </script>
 
 <style scoped>
-/* class="list-item" move over styles from the Todo List component*/ 
-
+.list-item {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    animation-duration: 0.3s;
+}
 </style>
