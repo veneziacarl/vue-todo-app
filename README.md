@@ -41,5 +41,6 @@ reproduce todomvc in component format:
 [] readme
 [] clear through linter
 [] remove dummy data
+[] fix the shifting styles when showing clear completed button
 [] maybe break out the input bar as a separate component as well
 [] heroku hosting

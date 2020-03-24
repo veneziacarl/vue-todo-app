@@ -11,16 +11,15 @@
 <script>
 export default {
     name: 'todo-clear-completed',
-    props: {
-        todosAreCompleted: {
-            type: Boolean,
-            required: true,
+    computed: {
+        todosAreCompleted() {
+            return this.$store.getters.todosAreCompleted
         },
     },
     methods: {
-        clearCompletedTodos() {
-            this.$emit('clearedCompletedTodos')
-        }
+        clearCompletedTodos () {
+            this.$store.commit('clearCompletedTodos')
+        },
     }
 }
 </script>

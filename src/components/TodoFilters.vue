@@ -9,15 +9,14 @@
 <script>
 export default {
     name: 'todo-filters',
-    data() {
-        return {
-            'filter': "all",
+    computed: {
+        filter() {
+            return this.$store.state.filter
         }
     },
     methods: {
         updateFilter(filter) {
-            this.filter = filter
-            this.$emit('updatedFilter', filter)
+            this.$store.commit('updateFilter', filter)
         }
     }
 }

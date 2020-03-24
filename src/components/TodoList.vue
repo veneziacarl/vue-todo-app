@@ -1,17 +1,11 @@
 <template>
   <div>
-      <input 
-        type="text" 
-        class="form-input" 
-        placeholder="What needs to be done?"
-        v-model="newTodo"
-        @keyup.enter="addTodo"
-      >
-      <todo-task v-for="(todo, index) in todosFiltered" :key="todo.id" :todo="todo" :index="index" @deletedTodo="deleteTodo" @finishedEditTodo="updateEditedTodo"></todo-task>
+      <todo-form></todo-form>
+      <todo-task v-for="todo in todosFiltered" :key="todo.id" :todo="todo"></todo-task>
       <div class="bottom-container">
-        <todo-tasks-remaining :remaining="remaining"></todo-tasks-remaining>
-        <todo-filters @updatedFilter="updatedFilter"></todo-filters>
-        <todo-clear-completed :todosAreCompleted="todosAreCompleted" @clearedCompletedTodos="clearCompletedTodos"></todo-clear-completed>
+        <todo-tasks-remaining></todo-tasks-remaining>
+        <todo-filters></todo-filters>
+        <todo-clear-completed></todo-clear-completed>
       </div>
   </div>
 </template>
@@ -21,6 +15,7 @@ import TodoTask from './TodoTask'
 import TodoTasksRemaining from './TodoTasksRemaining'
 import TodoFilters from './TodoFilters'
 import TodoClearCompleted from './TodoClearCompleted'
+import TodoForm from './TodoForm'
 
 export default {
   name: 'todo-list',
@@ -29,75 +24,13 @@ export default {
     TodoTasksRemaining,
     TodoFilters,
     TodoClearCompleted,
-  },
-  data () {
-    return {
-      newTodo: '',
-      todoId: 3,
-      tempEditedText: '',
-      filter: "all",
-      todos: [
-          {
-              'id': 1,
-              'text': 'Finish this app',
-              'completed': false,
-              'editing': false,
-          },          
-          {
-              'id': 2,
-              'text': 'Get the job',
-              'completed': false,
-              'editing': false,
-          },
-      ],
-    }
+    TodoForm,
   },
   computed: {
-    remaining () {
-      return this.todos.filter(todo => !todo.completed).length
-    },
     todosFiltered () {
-      if(this.filter == "all") {
-        return this.todos
-      } else if(this.filter == "active"){
-        return this.todos.filter(todo => !todo.completed)
-      } else if(this.filter == "completed"){
-        return this.todos.filter(todo => todo.completed)
-      }
-      return this.todos
-    },
-    todosAreCompleted () {
-      return this.todos.filter(todo => todo.completed).length > 0
+      return this.$store.getters.todosFiltered
     },
   },
-  methods: {
-    addTodo () {
-        if(this.newTodo.trim() == ''){
-            return
-        }
-        this.todos.push({
-            id: this.todoId,
-            text: this.newTodo,
-            completed: false,
-            editing: false,
-        })
-
-        this.newTodo = '' // remove this?
-        this.todoId++ // remove this?
-    },
-    deleteTodo (index) {
-        this.todos.splice(index, 1)
-    },
-    clearCompletedTodos () {
-      this.todos = this.todos.filter(todo => !todo.completed)
-    },
-    updateEditedTodo (todoData) {
-      this.todos.splice(todoData.index, 1, todoData.todo)
-    },
-    updatedFilter (filter) {
-      this.filter = filter
-    }
-  }
 }
 </script>
 

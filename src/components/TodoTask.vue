@@ -1,11 +1,11 @@
 <template>
     <div class="todo-task list-item">
         <div class="list-item-first">
-            <input type="checkbox" v-model="completed" @change="finishEditTodo">
-            <div v-if="!editing" @dblclick="startEditTodo" class="list-item-inactive" :class="{completed: completed}">{{ text }}</div>
-            <input v-else class="list-item-active" type="text" v-model="text" @blur="finishEditTodo" @keyup.enter="finishEditTodo" @keyup.escape="undoEditTodo" v-focus>
+            <input type="checkbox" v-model="completed" @change="editTodo">
+            <div v-if="!editing" @dblclick="editingMode" class="list-item-inactive" :class="{completed: completed}">{{ text }}</div>
+            <input v-else class="list-item-active" type="text" v-model="text" @blur="editTodo" @keyup.enter="editTodo" @keyup.escape="undoEditTodo" v-focus>
         </div>
-        <div class="remove-item" @click="deleteTodo(index)">
+        <div class="remove-item" @click="deleteTodo">
             &times;
         </div>
     </div>
@@ -17,10 +17,6 @@ export default {
     props: {
         todo: {
             type: Object,
-            required: true,
-        },
-        index: {
-            type: Number,
             required: true,
         },
     },
@@ -41,26 +37,23 @@ export default {
         }
     },
     methods: {
-        deleteTodo(index) {
-            this.$emit('deletedTodo', index)
+        deleteTodo() {
+            this.$store.commit('deleteTodo', this.id)
         },
-        startEditTodo() {
+        editingMode() {
             this.tempEditedText = this.text
             this.editing = true
         },
-        finishEditTodo() {
+        editTodo() {
             if(this.text.trim() == ''){
                 this.text = this.tempEditedText
             }
             this.editing = false
-            this.$emit('finishedEditTodo', {
-                'index': this.index,
-                'todo': {
-                    'id': this.id,
-                    'text': this.text,
-                    'completed': this.completed,
-                    'editing:': this.editing,
-                }
+            this.$store.commit('editTodo', {
+                'id': this.id,
+                'text': this.text,
+                'completed': this.completed,
+                'editing:': this.editing,
             })
         },
         undoEditTodo() {
